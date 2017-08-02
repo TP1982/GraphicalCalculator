@@ -1,5 +1,7 @@
 package com.apps.tuomop.graphcalc;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 /**
@@ -18,6 +20,7 @@ public class StringToFunction {
     }
 
     public Vector getStringToVector(Vector xvector){
+
         ArrayList<Float> functionList = new ArrayList<>();
         String functionString = inputText.toString();
         System.out.println("syötetty funktio: " + functionString);
@@ -36,6 +39,7 @@ public class StringToFunction {
                     functionList.add(1.0f);
                 }
                 this.vector.setList(functionList);
+
             }else{
                 for(int i = 0; i < xvector.getList().size(); i++){
                     xvar = xvector.getList().get(i);
@@ -45,7 +49,9 @@ public class StringToFunction {
                 this.vector.setList(functionList);
             }
 
-        }else if("x".equals(functionString)){
+        }
+
+        else if("x".equals(functionString)){
             for(int i = 0; i < xvector.getList().size(); i++){
                 xvar = xvector.getList().get(i);
                 value = xvar;
@@ -53,7 +59,7 @@ public class StringToFunction {
             }
             this.vector.setList(functionList);
         }
-        //------------  sin(x)
+
         else if ("sin(x)".equals(functionString) || "sin x".equals(functionString)){
             double valueToPlot = 0;
             for(int i = 0; i < xvector.getList().size(); i++){
@@ -63,7 +69,9 @@ public class StringToFunction {
                 System.out.println(valueToPlot);
             }
             this.vector.setList(functionList);
-        }else if ("cos(x)".equals(functionString) || "cos x".equals(functionString)){
+        }
+
+        else if ("cos(x)".equals(functionString) || "cos x".equals(functionString)){
             double valueToPlot = 0;
             for(int i = 0; i < xvector.getList().size(); i++){
                 xvar = xvector.getList().get(i);
@@ -72,7 +80,9 @@ public class StringToFunction {
                 System.out.println(valueToPlot);
             }
             this.vector.setList(functionList);
-        }else if ("tan(x)".equals(functionString) || "tan x".equals(functionString)){
+        }
+
+        else if ("tan(x)".equals(functionString) || "tan x".equals(functionString)){
             double valueToPlot = 0;
             for(int i = 0; i < xvector.getList().size(); i++){
                 xvar = xvector.getList().get(i);
@@ -81,7 +91,9 @@ public class StringToFunction {
                 System.out.println(valueToPlot);
             }
             this.vector.setList(functionList);
-        }else if ("e^x".equals(functionString)){
+        }
+
+        else if ("e^x".equals(functionString)){
             double valueToPlot = 0;
             for(int i = 0; i < xvector.getList().size(); i++){
                 xvar = xvector.getList().get(i);
@@ -101,5 +113,10 @@ public class StringToFunction {
 
         //return functionList;
         return this.vector;
+    }
+
+    @Override
+    public String toString() {
+        return inputText.toString();
     }
 }

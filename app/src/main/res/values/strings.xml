@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GraphCalc</string>
+    <string name="plotstyle">Plot style</string>
+
+    <string-array name="plotstylelist">
+        <item>Line</item>
+        <item>Line+circle</item>
+        <item>Circle</item>
+    </string-array>
 </resources>

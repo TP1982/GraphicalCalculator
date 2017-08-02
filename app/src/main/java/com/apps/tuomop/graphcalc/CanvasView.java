@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Spinner;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -87,6 +88,7 @@ public class CanvasView extends View {
         if(!xValuesVector.getList().isEmpty() && !yValuesVector.getList().isEmpty()){
             drawTickValues(xValuesVector, yValuesVector, canvas);
         }
+
     }
 
     public void setxValuesVector(Vector xvector){
@@ -245,7 +247,7 @@ public class CanvasView extends View {
 
     }
 
-    public void drawFunction(Vector x, Vector y){
+    public void drawFunction(Vector x, Vector y, Spinner spinner){
         mPath.reset();
         invalidate();
         clearData();
@@ -272,9 +274,15 @@ public class CanvasView extends View {
             float ypixel = floatToPixelInvertedY(y.getList().get(i), ymin, ymax, ypixelArea);
             xListPixel.add(xpixel);
             yListPixel.add(ypixel);
-            mPath.lineTo(xpixel, ypixel);
-            mPath.addCircle(xpixel, ypixel, 5.0f, Path.Direction.CCW);
-            mPath.moveTo(xpixel, ypixel);
+            if(String.valueOf(spinner.getSelectedItem()).equals("Line")){
+                mPath.lineTo(xpixel, ypixel);
+            }else if(String.valueOf(spinner.getSelectedItem()).equals("Line+circle")){
+                mPath.lineTo(xpixel, ypixel);
+                mPath.addCircle(xpixel, ypixel, 5.0f, Path.Direction.CCW);
+                mPath.moveTo(xpixel, ypixel);
+            }else if (String.valueOf(spinner.getSelectedItem()).equals("Circle")){
+                mPath.addCircle(xpixel, ypixel, 5.0f, Path.Direction.CCW);
+            }
         }
 
         Axes axes = new Axes(x.getList(), y.getList(), xListPixel, yListPixel);
