@@ -2,14 +2,13 @@ package com.apps.tuomop.graphcalc;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import static com.apps.tuomop.graphcalc.R.id.parent;
 
 public class MainActivity extends AppCompatActivity {
     private CanvasView customCanvas;
@@ -35,17 +34,10 @@ public class MainActivity extends AppCompatActivity {
         datapoints = (EditText) findViewById((R.id.datapoints));
         x = new Vector(-1, 1, 20);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                drawFunction(view);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        setSpinnerListener();
+        setMinxListener(customCanvas);
+        setMaxxListener(customCanvas);
+        setDatapointsListener(customCanvas);
     }
 
     public void clearCanvas(View v){
@@ -78,5 +70,76 @@ public class MainActivity extends AppCompatActivity {
 
     public void putText(View v){
         customCanvas.putText();
+    }
+    public void setSpinnerListener(){
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                drawFunction(view);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    public void setMaxxListener(View v){
+
+        maxx.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!maxx.getText().toString().isEmpty()
+                        && isNumeric(minx.getText().toString())){
+                    float xmax = Float.parseFloat(maxx.getText().toString());
+                    x.setEnd(xmax);
+                    drawFunction(customCanvas);
+                }
+            }
+        });
+
+    }
+    public void setMinxListener(View v){
+
+        minx.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!minx.getText().toString().isEmpty()
+                        && isNumeric(minx.getText().toString())){
+                    float xmin = Float.parseFloat(minx.getText().toString());
+                    x.setStart(xmin);
+                    drawFunction(customCanvas);
+                }
+            }
+        });
+
+    }
+
+    public void setDatapointsListener(View v){
+        datapoints.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!datapoints.getText().toString().isEmpty()){
+                    int dp = Integer.parseInt(datapoints.getText().toString());
+                    x.setDatapoints(dp);
+                    drawFunction(customCanvas);
+                }
+            }
+        });
+    }
+    public boolean isNumeric(String s){
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     }
 }
